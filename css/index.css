@@ -1,0 +1,60 @@
+/* @group general styles
+--------------------------------------------------------------------------------*/
+div,a,html,body{
+	padding:0;
+	margin:0;
+}
+/* @group page structure
+--------------------------------------------------------------------------------*/
+#warp{
+	width: 700px;
+	overflow: hidden;
+}
+
+/* @group page components
+--------------------------------------------------------------------------------*/
+
+#warp .news{
+	float: left;
+	width: 698px;
+	height: 200px;
+	margin-top: 10px;
+	border:1px solid black;
+}
+
+#warp .news .pic-container{
+	width:220px; 
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+#warp .news .pic-container img{
+	height: 120px;
+	width: 160px;
+	margin-top:40px;
+}
+
+#warp .news .title-container a{
+	font-size: 28px;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+#warp .news .title-container{
+	height: 100%;
+	float: left;
+	width: 478px;
+}
+#warp .news .title-container .title-body{
+	height:100px;
+	margin-top: 50px;
+	margin-left: 20px;
+}
+#warp .news .title-container .from{
+	color:grey;
+	margin-top: 10px;
+}
+#warp .news .title-container .type{
+	color:grey;
+	margin-left: 5px;
+}
