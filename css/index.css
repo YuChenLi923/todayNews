@@ -1,6 +1,6 @@
 /* @group general styles
 --------------------------------------------------------------------------------*/
-div,a,html,body{
+div,a,html,body,ul,li{
 	padding:0;
 	margin:0;
 }
@@ -9,6 +9,24 @@ div,a,html,body{
 #warp{
 	width: 700px;
 	overflow: hidden;
+}
+#warp_top{
+	background-color: grey;
+	color: white;
+	position: fixed;
+	bottom:100px;
+	left:800px;
+	list-style: none;
+	font-size: 20px;
+	text-align: center;
+	line-height: 25px;
+	display: none;
+}
+#warp_top #top{
+	float: top;
+	height:50px;
+	width: 50px;
+	background-color: grey;
 }
 
 /* @group page components

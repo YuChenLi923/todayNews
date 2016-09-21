@@ -1,4 +1,13 @@
-(function newBox(num){
+newsBox(7);
+createSlideButton(
+	{
+		id:'warp_top',//回到顶部按钮的ID
+		speed:10,//回到顶部的速度
+		showPos:400,//按钮出现的位置，这个是下部分遮盖区的高度
+		topPos:0,//返回顶部的位置，这个是上部分遮盖区的高度
+	}
+);
+function newsBox(num){
 	for(var i=0;i<num;i++){
 		// var news=getAjaxInf();
 		createNewBox({
@@ -10,7 +19,8 @@
 			type:'新闻类别'//news.title
 		});
 	}
-	window.onscroll=function(e){
+	window.addEventListener('scroll',scrollAdd);
+	function scrollAdd(e){
 		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
 		 	viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight),
 		 	docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight),
@@ -26,7 +36,7 @@
 					type:'新闻类别'//news.title
 				});
 			 }
-	};
+	}
 	function createNewBox(news) {
 		var warp=document.getElementById(news.id),
 			newBox=document.createElement('div'),
@@ -79,8 +89,42 @@
 			return inf;
 		}
 	}
-})(7);
+};
+function createSlideButton(button){
+	var top=document.getElementById(button.id),
+		speed=button.speed,
+		showPos=button.showPos,
+		docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight),
+		topPos=button.topPos,
+		speed=docHeight/(2000/speed);
+	window.addEventListener('scroll',function(e){
+		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
+		 	viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight),
+		 	scrollBottom=scrollTop-docHeight+viewHeight;
+		 if(scrollBottom>=-showPos&&top.style.cssText!=='display:block'&&scrollTop>viewHeight+showPos){
+		 	top.style.cssText='display:block';
+		 }
+		 else{
+		 	if(scrollTop<=topPos&&top.style.cssText!=='display:none'){
+		 		top.style.cssText='display:none';
+		 	}
+		 }		
+	});
+	top.addEventListener('click',slideAnimation);
+	function slideAnimation(){
 
+		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
+		docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight);
+		if(scrollTop>topPos){
+			scrollTop=scrollTop-speed;
+			scrollTo(0,scrollTop); 
+			setTimeout(function(){
+				slideAnimation();
+			},1);
+		}
+		
+	}
+}
 function creatXHR(){
 	if(typeof XMLHttpRequest == 'undefined')
 		XMLHttpRequest=function(){
