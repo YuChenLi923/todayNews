@@ -19,13 +19,10 @@ function newsBox(num){
 			type:'新闻类别'//news.title
 		});
 	}
-	window.addEventListener('scroll',scrollAdd);
+	addEvent(window,'scroll',scrollAdd);
 	function scrollAdd(e){
-		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
-		 	viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight),
-		 	docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight),
-		 	scrollBottom=scrollTop-docHeight+viewHeight;
-			if(scrollBottom>=-100){
+		var scrollBottom=getPageSizeInf().scrollBottom;
+			if(scrollBottom<=100){
 				// var news=getAjaxInf();
 				createNewBox({
 					id:'warp',//新闻栏的ID,有后台则把改成news.id
@@ -94,35 +91,31 @@ function createSlideButton(button){
 	var top=document.getElementById(button.id),
 		speed=button.speed,
 		showPos=button.showPos,
-		docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight),
 		topPos=button.topPos,
-		speed=docHeight/(2000/speed);
-	window.addEventListener('scroll',function(e){
-		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
-		 	viewHeight =Math.min(document.documentElement.scrollHeight,document.documentElement.clientHeight),
-		 	scrollBottom=scrollTop-docHeight+viewHeight;
-		 if(scrollBottom>=-showPos&&top.style.cssText!=='display:block'&&scrollTop>viewHeight+showPos){
-		 	top.style.cssText='display:block';
-		 }
-		 else{
-		 	if(scrollTop<=topPos&&top.style.cssText!=='display:none'){
-		 		top.style.cssText='display:none';
-		 	}
-		 }		
-	});
-	top.addEventListener('click',slideAnimation);
+		speed=getPageSizeInf().docHeight/(2000/speed);
+		addEvent(window,'scroll',function(e){
+				var scrollPosInf= getPageSizeInf();
+				 if(scrollPosInf.scrollBottom>=-showPos&&top.style.cssText!=='display:block'&&scrollPosInf.scrollTop>scrollPosInf.viewHeight+showPos){
+				 	top.style.cssText='display:block';
+				 }
+				 else{
+				 	if(scrollPosInf.scrollTop<=showPos&&top.style.cssText!=='display:none'){
+				 		top.style.cssText='display:none';
+				 	}
+				}		
+			}
+		);
+		addEvent(top,'click',slideAnimation);
 	function slideAnimation(){
-
-		var scrollTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop,
-		docHeight=Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight);
+		var scrollTop =  getPageSizeInf().scrollTop,
+		docHeight=getPageSizeInf().docHeight;
 		if(scrollTop>topPos){
 			scrollTop=scrollTop-speed;
 			scrollTo(0,scrollTop); 
 			setTimeout(function(){
 				slideAnimation();
 			},1);
-		}
-		
+		}	
 	}
 }
 function creatXHR(){
